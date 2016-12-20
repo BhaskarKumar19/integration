@@ -6,7 +6,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
 						http://www.springframework.org/schema/beans/spring-beans.xsd
 						http://www.springframework.org/schema/integration
-						http://www.springframework.org/schema/integration/spring-integration.xsd
+						http://www.springframework.org/schema/integration/spring-integration-4.0.xsd
 						http://www.springframework.org/schema/integration/mqtt 
 						http://www.springframework.org/schema/integration/mqtt/spring-integration-mqtt.xsd
         
@@ -15,9 +15,14 @@
  		
      <int:publish-subscribe-channel  id="messages"/>
      <int:publish-subscribe-channel id="messageChannel2"/>
+     <int:channel id="sensorChannel"></int:channel>
+     <int:channel id="actuatorChannel"></int:channel>
+     <int:channel id="defaultTest"></int:channel>
+     
+     
      <bean id="mqttSendingMessageHandler" class="integration.MqttSendingMessageHandler"></bean>
 
-     <int:outbound-channel-adapter ref="mqttSendingMessageHandler" channel="messages" />
+     <int:outbound-channel-adapter ref="mqttSendingMessageHandler" channel="defaultTest" />
 
     
      
@@ -34,7 +39,7 @@
      client-id="ClientId599" 
      client-factory="clientFactory"
      qos="0"
-     topics="testHeaderTopic"
+     topics="test2/integrationTest/#"
      channel="messages"
     />
   
@@ -49,12 +54,20 @@
      
      
      
+    <bean id="customRouter"  class="integration.CustomRouter"></bean>
+    
+    
+    
+      <bean id="actuatorProcessor" class="integration.ActuatorProcessor"></bean>
+      <bean id="sensorProcessor" class="integration.SensorProcessor"></bean>
+     
+     <int:router ref="customRouter" input-channel="messages" default-output-channel="defaultTest"></int:router>
      
      
+     <int:service-activator input-channel="sensorChannel" ref="sensorProcessor" method="runProcessor"></int:service-activator>
+     <int:service-activator input-channel="actuatorChannel" ref="actuatorProcessor" method="runProcessor"></int:service-activator>
      
-     
-     
-     
+       
      
      
      

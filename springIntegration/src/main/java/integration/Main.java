@@ -14,10 +14,20 @@ public class Main {
 		messageChannel = context.getBean("messageChannel2", MessageChannel.class);
 		for (int i = 0; i < 5; i++) {
 			Thread.sleep(200);
-			System.out.println("sending message");
-			messageChannel.send(MessageBuilder.withPayload("Josh and Andy say hi!".getBytes())
-					.setHeader(MqttHeaders.TOPIC, "testHeaderTopic").build());
-			System.out.println("message sent");
+
+			if (i % 2 == 0) {
+				System.out.println("sending message");
+				messageChannel.send(MessageBuilder.withPayload("MQTT TEST PAYLOAD!".getBytes())
+						.setHeader(MqttHeaders.TOPIC, "test2/integrationTest/SENSOR").build());
+				System.out.println("message sent");
+			}
+			
+			else {
+				System.out.println("sending message");
+				messageChannel.send(MessageBuilder.withPayload("MQTT TEST PAYLOAD!".getBytes())
+						.setHeader(MqttHeaders.TOPIC, "test2/integrationTest/ACTUATOR").build());
+				System.out.println("message sent");
+			}
 		}
 	}
 
