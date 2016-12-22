@@ -18,7 +18,8 @@
      <int:channel id="sensorChannel"></int:channel>
      <int:channel id="actuatorChannel"></int:channel>
      <int:channel id="defaultTest"></int:channel>
-     
+     <int:channel id="gatewayReqChannel"></int:channel>
+     <int:channel id="gatewayRespChannel"></int:channel>
      
      <bean id="mqttSendingMessageHandler" class="integration.MqttSendingMessageHandler"></bean>
 
@@ -60,6 +61,7 @@
     
       <bean id="actuatorProcessor" class="integration.ActuatorProcessor"></bean>
       <bean id="sensorProcessor" class="integration.SensorProcessor"></bean>
+      <bean id="transformer" class="integration.MqttMsgTransformer"></bean>
      
      <int:router ref="customRouter" input-channel="messages" default-output-channel="defaultTest"></int:router>
      
@@ -67,17 +69,9 @@
      <int:service-activator input-channel="sensorChannel" ref="sensorProcessor" method="runProcessor"></int:service-activator>
      <int:service-activator input-channel="actuatorChannel" ref="actuatorProcessor" method="runProcessor"></int:service-activator>
      
-       
+     <int:gateway id="customGatewayService" service-interface="integration.CustomGateway"  default-request-channel="gatewayReqChannel"  default-reply-channel="gatewayRespChannel"></int:gateway>
      
-     
-     
-     
-     
-     
-     
-     
-     
-     
+     <int:transformer input-channel="gatewayReqChannel" output-channel="gatewayRespChannel" ref="transformer" ></int:transformer>
      
      
     <!--<mqtt:outbound-channel-adapter topic="ooo" quality-of-service="" retain=""/>-->
