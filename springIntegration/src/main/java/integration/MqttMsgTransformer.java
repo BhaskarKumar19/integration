@@ -3,7 +3,7 @@ package integration;
 import org.springframework.integration.mqtt.support.MqttHeaders;
 import org.springframework.messaging.Message;
 
-public class MqttMsgTransformer implements CustomGateway {
+public class MqttMsgTransformer {
 
 	public String sendMqttMessage(Message<?> paramMessage) {
 		System.out.println("started MqttMsgTransformer.transformMsg()");

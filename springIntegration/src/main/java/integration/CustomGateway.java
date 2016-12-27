@@ -1,6 +1,8 @@
 package integration;
+import java.util.concurrent.Future;
+
 import org.springframework.messaging.Message;
 
 public interface CustomGateway {
-	String sendMqttMessage(Message<?> msg);
+	Future<String> sendMqttMessage(Message<?> msg);
 }
