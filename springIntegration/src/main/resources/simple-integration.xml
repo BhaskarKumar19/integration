@@ -12,13 +12,16 @@
         
  ">
  
+ 
+ 	<bean id="constants" class="integration.IntgrnContants"></bean>
+ 
  		
      <int:publish-subscribe-channel  id="messages"/>
      <int:publish-subscribe-channel id="messageChannel2"/>
      <int:channel id="sensorChannel"></int:channel>
      <int:channel id="actuatorChannel"></int:channel>
      <int:channel id="defaultTest"></int:channel>
-     <int:channel id="gatewayReqChannel"></int:channel>
+     <int:publish-subscribe-channel id="gatewayReqChannel"/>
      <int:channel id="gatewayRespChannel"></int:channel>
      
      <bean id="mqttSendingMessageHandler" class="integration.MqttSendingMessageHandler"></bean>
@@ -36,7 +39,7 @@
     
      
      <int-mqtt:message-driven-channel-adapter id="mqttInboundAdapter"
-     url="tcp://iot.eclipse.org:1883"
+     url="#{constants.INBOUND_Url}"
      client-id="ClientId599" 
      client-factory="clientFactory"
      qos="0"
@@ -45,12 +48,12 @@
     />
   
        <int-mqtt:outbound-channel-adapter id="mqttOutboundAdapter"
-	   url="tcp://iot.eclipse.org:1883"
+	   url="#{constants.OUTBOUND_Url}"
 	   client-id="dummyId/ClientId"
 	   client-factory="clientFactory"
 	   default-qos="0"
 	   default-topic="test2/integrationTest"
-	   channel="messageChannel2"
+	   channel="gatewayReqChannel"
    ></int-mqtt:outbound-channel-adapter>
      
      
