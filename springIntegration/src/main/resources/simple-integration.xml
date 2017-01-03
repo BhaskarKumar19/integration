@@ -39,7 +39,7 @@
     
      
      <int-mqtt:message-driven-channel-adapter id="mqttInboundAdapter"
-     url="#{constants.INBOUND_Url}"
+     url="#{constants.INBOUND_URL}"
      client-id="ClientId599" 
      client-factory="clientFactory"
      qos="0"
@@ -48,7 +48,7 @@
     />
   
        <int-mqtt:outbound-channel-adapter id="mqttOutboundAdapter"
-	   url="#{constants.OUTBOUND_Url}"
+	   url="#{constants.OUTBOUND_URL}"
 	   client-id="dummyId/ClientId"
 	   client-factory="clientFactory"
 	   default-qos="0"
